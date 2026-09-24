@@ -6,10 +6,11 @@ terraform {
     }
   }
   backend "azurerm" {
-    resource_group_name  = "infra_ror"
-    storage_account_name = "storebox"
-    container_name       = "containresources"
-    key                  = "develpment.terraform.tfstate"
+    
+    # resource_group_name  = "infra_ror"
+    # storage_account_name = "storebox"
+    # container_name       = "containresources"
+    # key                  = "develpment.terraform.tfstate"
   }
 }
 

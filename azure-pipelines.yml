@@ -3,9 +3,22 @@ trigger:
 
 pool: Selfhosted pool
 
+parameters:
+
+- name: environment
+  displayName: Environment
+  type: string
+  default: dev
+  values:
+  - dev
+  - qa
+
 variables:
 - name: WRKDIR
-  value: $(System.DefaultWorkingDirectory)/env/dev
+  value: $(System.DefaultWorkingDirectory)/env/${{ parameters.environment }}
+
+- name: BACKEND_KEY
+  value: ${{ parameters.environment }}.terraform.tfstate  
 
 stages: 
 - stage: init
@@ -24,6 +37,10 @@ stages:
               backendAzureRmStorageAccountName: 'storebox'
               backendAzureRmContainerName: 'containresources'
               backendAzureRmKey: 'develpment.terraform.tfstate'
+<<<<<<< HEAD
+=======
+              
+>>>>>>> b9d0526 (update code for multi env)
 - stage: scanning
   displayName: Scanning code
   dependsOn: init

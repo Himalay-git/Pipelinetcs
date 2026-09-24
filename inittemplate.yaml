@@ -8,4 +8,4 @@ steps:
        backendAzureRmResourceGroupName: 'infra_ror'
        backendAzureRmStorageAccountName: 'storebox'
        backendAzureRmContainerName: 'containresources'
-       backendAzureRmKey: 'develpment.terraform.tfstate'
+       backendAzureRmKey: '$(BACKEND_KEY)'
