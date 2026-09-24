@@ -24,34 +24,34 @@ stages:
               backendAzureRmStorageAccountName: 'storebox'
               backendAzureRmContainerName: 'containresources'
               backendAzureRmKey: 'develpment.terraform.tfstate'
-# - stage: scanning
-#   displayName: Scanning code
-#   dependsOn: init
-#   jobs:
-#     - job: checkov
-#       steps:
-#         - task: PowerShell@2
-#           displayName: Checkov scanning
-#           continueOnError: true
-#           inputs:
-#             targetType: 'inline'
-#             script: 'checkov -d "$(System.DefaultWorkingDirectory)" -o junitxml > checkovres.xml'
-#         - task: PublishTestResults@2
-#           displayName: Checkov Publish Report 
-#           inputs:
-#             testResultsFormat: 'JUnit'
-#             testResultsFiles: 'checkovres.xml'
-#         - task: PowerShell@2
-#           displayName: TFlint scanning
-#           continueOnError: true
-#           inputs:
-#             targetType: 'inline'
-#             script: 'tflint --chdir="$(System.DefaultWorkingDirectory)" --recursive --format junit | Out-File -Encoding utf8 > tflint-report.xml ;exit 0 '
-#         - task: PublishTestResults@2
-#           displayName: TFlint Publish Report
-#           inputs:
-#             testResultsFormat: 'JUnit'
-#             testResultsFiles: 'tflint-report.xml'
+- stage: scanning
+  displayName: Scanning code
+  dependsOn: init
+  jobs:
+    - job: checkov
+      steps:
+        - task: PowerShell@2
+          displayName: Checkov scanning
+          continueOnError: true
+          inputs:
+            targetType: 'inline'
+            script: 'checkov -d "$(System.DefaultWorkingDirectory)" -o junitxml > checkovres.xml'
+        - task: PublishTestResults@2
+          displayName: Checkov Publish Report 
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: 'checkovres.xml'
+        - task: PowerShell@2
+          displayName: TFlint scanning
+          continueOnError: true
+          inputs:
+            targetType: 'inline'
+            script: 'tflint --chdir="$(System.DefaultWorkingDirectory)" --recursive --format junit | Out-File -Encoding utf8 > tflint-report.xml ;exit 0 '
+        - task: PublishTestResults@2
+          displayName: TFlint Publish Report
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: 'tflint-report.xml'
 
 - stage: 
   displayName: Terraform plan
