@@ -37,10 +37,7 @@ stages:
               backendAzureRmStorageAccountName: 'storebox'
               backendAzureRmContainerName: 'containresources'
               backendAzureRmKey: 'develpment.terraform.tfstate'
-<<<<<<< HEAD
-=======
               
->>>>>>> b9d0526 (update code for multi env)
 - stage: scanning
   displayName: Scanning code
   dependsOn: init
@@ -109,4 +106,4 @@ stages:
             environmentServiceNameAzureRM: 'SCinfra'
         
 
-        
+      
