@@ -1,26 +1,26 @@
 rg = {
   rg1 = {
-    name     = "tuhar"
+    name     = "devtuhar"
     location = "japaneast"
   }
 }
 
 store = {
   store1 = {
-    name                = "sttuhar"
-    resource_group_name = "tuhar"
+    name                = "devsttuhar"
+    resource_group_name = "devtuhar"
     location            = "japaneast"
   }
 }
 
 network = {
   network1 = {
-    name                = "vnettuhar"
+    name                = "devvnettuhar"
     location            = "japaneast"
-    resource_group_name = "tuhar"
+    resource_group_name = "devtuhar"
     subnet = {
       subnet1 = {
-        name             = "vmtuharsubnet"
+        name             = "devvmtuharsubnet"
         address_prefixes = ["10.0.1.0/24"]
       }
       subnet2 = {
