@@ -1,19 +1,94 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+trigger: none
 
-trigger:
-- main
+pool: Selfhosted pool
 
-pool:
-  vmImage: ubuntu-latest
+variables:
+- name: WRKDIR
+  value: $(System.DefaultWorkingDirectory)/env/dev
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages: 
+- stage: init
+  displayName: terraform init
+  jobs:
+      - job: terraform
+        steps:
+          - task: TerraformTask@5
+            displayName: terraform init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              workingDirectory: '$(WRKDIR)'
+              backendServiceArm: 'SCinfra'
+              backendAzureRmResourceGroupName: 'infra_ror'
+              backendAzureRmStorageAccountName: 'storebox'
+              backendAzureRmContainerName: 'containresources'
+              backendAzureRmKey: 'develpment.terraform.tfstate'
+# - stage: scanning
+#   displayName: Scanning code
+#   dependsOn: init
+#   jobs:
+#     - job: checkov
+#       steps:
+#         - task: PowerShell@2
+#           displayName: Checkov scanning
+#           continueOnError: true
+#           inputs:
+#             targetType: 'inline'
+#             script: 'checkov -d "$(System.DefaultWorkingDirectory)" -o junitxml > checkovres.xml'
+#         - task: PublishTestResults@2
+#           displayName: Checkov Publish Report 
+#           inputs:
+#             testResultsFormat: 'JUnit'
+#             testResultsFiles: 'checkovres.xml'
+#         - task: PowerShell@2
+#           displayName: TFlint scanning
+#           continueOnError: true
+#           inputs:
+#             targetType: 'inline'
+#             script: 'tflint --chdir="$(System.DefaultWorkingDirectory)" --recursive --format junit | Out-File -Encoding utf8 > tflint-report.xml ;exit 0 '
+#         - task: PublishTestResults@2
+#           displayName: TFlint Publish Report
+#           inputs:
+#             testResultsFormat: 'JUnit'
+#             testResultsFiles: 'tflint-report.xml'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- stage: 
+  displayName: Terraform plan
+  jobs:
+    - job: 
+      steps:
+      - template: inittemplate.yaml
+
+      - task: TerraformTask@5
+        displayName: Terraform plan
+        inputs:
+          provider: 'azurerm'
+          command: 'plan'
+          workingDirectory: '$(WRKDIR)'
+          environmentServiceNameAzureRM: 'SCinfra'
+# - stage: 
+#   displayName: Manual validation
+#   jobs:
+#     - job: 
+#       pool: server
+#       steps:
+#         - task: ManualValidation@1
+#           inputs:
+#             notifyUsers: 'himalaykadiyan@gmail.com'
+#             approvers: 'himalaykadiyan@gmail.com'
+- stage: 
+  displayName: Terraform apply
+  jobs:
+    - job: 
+      steps:
+        - template: inittemplate.yaml
+        - task: TerraformTask@5
+          displayName: Terraform apply
+          inputs:
+            provider: 'azurerm'
+            command: 'apply'
+            workingDirectory: '$(WRKDIR)'
+            environmentServiceNameAzureRM: 'SCinfra'
+        
+
+        
