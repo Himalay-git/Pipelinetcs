@@ -1,7 +1,7 @@
 rg = {
   rg1 = {
     name     = "tuhar"
-    location = "australiacentral"
+    location = "japaneast"
   }
 }
 
@@ -9,14 +9,14 @@ store = {
   store1 = {
     name                = "sttuhar"
     resource_group_name = "tuhar"
-    location            = "australiacentral"
+    location            = "japaneast"
   }
 }
 
 network = {
   network1 = {
     name                = "vnettuhar"
-    location            = "australiacentral"
+    location            = "japaneast"
     resource_group_name = "tuhar"
     subnet = {
       subnet1 = {
