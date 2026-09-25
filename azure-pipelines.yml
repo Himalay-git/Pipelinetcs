@@ -1,5 +1,8 @@
 trigger: 
-- main
+  branches:
+    include:
+      - main
+
 
 pool: Selfhosted pool
 
@@ -36,7 +39,7 @@ stages:
               backendAzureRmResourceGroupName: 'infra_ror'
               backendAzureRmStorageAccountName: 'storebox'
               backendAzureRmContainerName: 'containresources'
-              backendAzureRmKey: 'develpment.terraform.tfstate'
+              backendAzureRmKey: '$(BACKEND_KEY)'
               
 - stage: scanning
   displayName: Scanning code
